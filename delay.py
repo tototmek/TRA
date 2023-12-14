@@ -9,8 +9,31 @@ outport = client.outports.register("signal_out")
 exit_event = threading.Event()
 
 
-@client.set_process_callback
-def process(frames):
+# Proponowany układ:
+#
+#   input ----+--------------------------------------->(+)---->output
+#             |                                         ᐱ
+#             |                                         |
+#             V                                         |
+#            (+)---> 1.Delay ----> 2.Filter ---+---> 3.Gain
+#             ᐱ                                |
+#             |                                |
+#             |                                |
+#             +----------- 4. Gain ------------+
+#
+# 1.Delay – parametr time – wprowadza do sygnału opóźnienie o pewną liczbę próbek
+# 2.Filter – parametry brzmienia – moim zdaniem najlepiej jakiś filtr noi,
+#            regulowane parametry, konieczne wyliczanie parametrów filtru
+#            w locie, być może podział na sekcje bikwadratowe czy coś takiego, idk
+#           kolejność delaya i filtru można dowolnie zamieniać
+# 3.Gain – parametr wet – kontroluje jak dużo opóźnionego sygnału idzie na output
+# 4.Gain – parametr feedback – kontroluje tłumienie każdego kolejnego powtórzenia
+#          danego fragmentu sygnału.
+#                                           ᐱ
+#                                           |
+@client.set_process_callback  #             |
+def process(frames):  #                     |
+    # TODO: Tu zaimplementować to: ---------+
     client.outports[0].get_buffer()[:] = client.inports[0].get_buffer()
 
 
