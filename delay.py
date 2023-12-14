@@ -4,8 +4,8 @@ import jack
 import threading
 
 client = jack.Client("delay")
-client.inports.register("signal_in")
-client.outports.register("signal_out")
+inport = client.inports.register("signal_in")
+outport = client.outports.register("signal_out")
 exit_event = threading.Event()
 
 
@@ -16,15 +16,23 @@ def process(frames):
 
 @client.set_shutdown_callback
 def shutdown(status, reason):
-    print("JACK shutdown!")
-    print("status:", status)
-    print("reason:", reason)
+    print("JACK shutdown.")
     exit_event.set()
 
 
 with client:
-    print("Press Ctrl+C to stop")
+    # Quality of life auto-connection:
+    default_outports = client.get_ports("system:playback*")
+    for port in default_outports:
+        client.connect(outport, port)
+
+    default_inports = client.get_ports("file_player:out*")
+    if not len(default_inports) == 0:
+        client.connect(default_inports[0], inport)
+
+    # Wait for termination
+    print("Press Ctrl+C to stop.")
     try:
         exit_event.wait()
     except KeyboardInterrupt:
-        print("\nInterrupted by user")
+        print(f"\tInterrupted by user.")

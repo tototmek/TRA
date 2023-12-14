@@ -1,4 +1,5 @@
 #! /usr/bin/python3
+
 import argparse
 import queue
 import sys
@@ -14,7 +15,7 @@ parser.add_argument(
     help="number of blocks used for buffering (default: %(default)s)",
 )
 parser.add_argument(
-    "-c", "--clientname", default="file player", help="JACK client name"
+    "-c", "--clientname", default="file_player", help="JACK client name"
 )
 parser.add_argument(
     "-m",
@@ -98,6 +99,10 @@ try:
                 else:
                     for source, target in zip(client.outports, target_ports):
                         source.connect(target)
+            else:
+                target_ports = client.get_ports("delay:signal_in")
+                for target_port in target_ports:
+                    client.outports[0].connect(target_port)
             timeout = blocksize * args.buffersize / samplerate
             for data in block_generator:
                 q.put(data, timeout=timeout)
