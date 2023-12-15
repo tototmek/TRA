@@ -11,10 +11,10 @@ inport = client.inports.register("signal_in")
 outport = client.outports.register("signal_out")
 exit_event = threading.Event()
 
-gain1 = GainBlock(0.8)
+gain1 = GainBlock(0.6)
 gain2 = GainBlock(0.2)
 gain3 = GainBlock(0.1)
-delay = DelayBlock(0.3, client.samplerate)
+delay = DelayBlock(0.6, client.samplerate)
 filter = FilterBlock()
 feedback: float = 0
 
@@ -53,7 +53,6 @@ def process(frames):  #                     |
         output_buffer[i] = input_buffer[i]
         dry = input_buffer[i]
         wet = filter.process(delay.process(dry + feedback))
-        wet = dry + feedback
         feedback = gain3.process(wet)
         output_buffer[i] = gain1.process(dry) + gain2.process(wet)
 
