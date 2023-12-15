@@ -1,12 +1,22 @@
 #!/usr/bin/python
 
 import jack
+import numpy
+import time
 import threading
+from processing import GainBlock, DelayBlock, FilterBlock
 
 client = jack.Client("delay")
 inport = client.inports.register("signal_in")
 outport = client.outports.register("signal_out")
 exit_event = threading.Event()
+
+gain1 = GainBlock(0.8)
+gain2 = GainBlock(0.2)
+gain3 = GainBlock(0.1)
+delay = DelayBlock(0.3, client.samplerate)
+filter = FilterBlock()
+feedback: float = 0
 
 
 # Proponowany układ:
@@ -35,7 +45,22 @@ exit_event = threading.Event()
 @client.set_process_callback  #             |
 def process(frames):  #                     |
     # TODO: Tu zaimplementować to: ---------+
-    client.outports[0].get_buffer()[:] = client.inports[0].get_buffer()
+    global feedback
+    input_buffer = inport.get_array()
+    output_buffer = outport.get_array()
+    start_time = time.perf_counter()
+    for i in range(len(input_buffer)):
+        output_buffer[i] = input_buffer[i]
+        dry = input_buffer[i]
+        wet = filter.process(delay.process(dry + feedback))
+        wet = dry + feedback
+        feedback = gain3.process(wet)
+        output_buffer[i] = gain1.process(dry) + gain2.process(wet)
+
+    end_time = time.perf_counter()
+
+    elapsed_time_ms = (end_time - start_time) * 1000
+    print(f"Elapsed Time: {elapsed_time_ms:.3f} milliseconds")
 
 
 @client.set_shutdown_callback
