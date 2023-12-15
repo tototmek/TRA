@@ -21,8 +21,8 @@ class DelayBlock:
 
 class FilterBlock:
     def __init__(self) -> None:
-        pass
+        self.prev_x = 0
 
     def process(self, x: float) -> float:
         # TODO: Implement the correct block behaviour
-        return x
+        return 0.8 * self.prev_x + 0.2 * x
