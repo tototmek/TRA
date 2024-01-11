@@ -13,7 +13,11 @@ Stworzone oprogramowanie wykorzystuje [JACK Audio Connection Toolkit](https://ja
 sudo apt-get -y install qjackctl
 qjackctl
 ```
-Należy wybrać odpowiedni sterownik sprzętowy, by system działał poprawnie. QjackCtl pozwala również uruchomić serwer JACK, co pozwala potwierdzić poprawność konfiguracji.
+Należy wybrać odpowiedni sterownik sprzętowy, by system działał poprawnie. QjackCtl pozwala również uruchomić serwer JACK, co pozwala potwierdzić poprawność konfiguracji. Prawidłowe działanie oprogramowania JACK może wymagać dodania użytkownika do grupy `audio`.
+```bash
+usermod -a -G audio $USER
+```
+Aby zmiana ta została wprowadzona, należy zrestartować komputer.
 
 ### Użytkowanie
 Uruchomienie stworzonego programu odbywa się poprzez wykonanie skryptu `delay.py`. Jeżeli nie jest włączony serwer JACK, skrypt automatycznie go uruchomi.
