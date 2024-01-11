@@ -100,7 +100,7 @@ try:
                     for source, target in zip(client.outports, target_ports):
                         source.connect(target)
             else:
-                target_ports = client.get_ports("delay:signal_in")
+                target_ports = client.get_ports("delay:input")
                 for target_port in target_ports:
                     client.outports[0].connect(target_port)
             timeout = blocksize * args.buffersize / samplerate
