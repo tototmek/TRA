@@ -28,3 +28,4 @@ Przedstawione wywołanie uruchamia efekt delay z domyślnymi parametrami. Listę
 ```bash
 python3 delay.py --help
 ```
+Konfiguracja programu może zostać również wczytana z pliku yaml. Należy wówczas wywołać program z opcją `--file`, podając ścieżkę do pliku konfiguracyjnego. Przykładowa konfiguracja znajduje się w pliku `config.yaml`.
