@@ -1,7 +1,9 @@
 import argparse
 from params import DelayEffectParams, FilterParams
 
-arg_default = {
+PROGRAM_DESCRIPTION = "an audio delay effect"
+
+ARG_DEFAULT_VALUES = {
     "time": 0.5,
     "dry": 0.6,
     "wet": 0.4,
@@ -9,7 +11,7 @@ arg_default = {
     "filter-filterness": 0.8,
 }
 
-arg_help = {
+ARG_HELP = {
     "time": "Effect delay time.",
     "dry": "Dry gain.",
     "wet": "Wet gain.",
@@ -26,9 +28,9 @@ def parse_args() -> DelayEffectParams:
 
 
 def construct_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="An audio delay effect")
+    parser = argparse.ArgumentParser(description=PROGRAM_DESCRIPTION)
     for field in get_field_names(DelayEffectParams):
-        arg_name = field
+        arg_name = format_as_arg(field)
         if arg_name == "filter":
             continue
         parser.add_argument(
@@ -38,7 +40,7 @@ def construct_parser() -> argparse.ArgumentParser:
             help=get_arg_help(arg_name),
         )
     for field in get_field_names(FilterParams):
-        arg_name = "filter-" + field
+        arg_name = "filter-" + format_as_arg(field)
         parser.add_argument(
             f"--{arg_name}",
             type=float,
@@ -64,22 +66,26 @@ def construct_effect_params(args: argparse.Namespace) -> DelayEffectParams:
     return delay_effect_params
 
 
+def get_field_names(class_type):
+    return [field for field, _ in class_type.__annotations__.items()]
+
+
+def format_as_arg(field_name):
+    return field_name.replace("_", "-")
+
+
 def get_arg_default(arg_name):
-    if arg_name not in arg_default:
-        return f"The {arg_name} parameter"
+    if arg_name not in ARG_DEFAULT_VALUES:
+        return 0.0
     else:
-        return arg_default[arg_name]
+        return ARG_DEFAULT_VALUES[arg_name]
 
 
 def get_arg_help(arg_name):
-    if arg_name not in arg_help:
-        return f"The {arg_name} parameter. Default value: {get_arg_default(arg_name)}"
+    if arg_name not in ARG_HELP:
+        return f"The {arg_name} parameter. Default: {get_arg_default(arg_name)}"
     else:
-        return arg_help[arg_name] + f" Default: {get_arg_default(arg_name)}"
-
-
-def get_field_names(class_type):
-    return [field for field, _ in class_type.__annotations__.items()]
+        return ARG_HELP[arg_name] + f" Default: {get_arg_default(arg_name)}"
 
 
 def args_to_dict(args):
