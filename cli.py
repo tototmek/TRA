@@ -1,4 +1,6 @@
 import argparse
+import os
+import yaml
 from params import DelayEffectParams, FilterParams
 
 PROGRAM_DESCRIPTION = "an audio delay effect"
@@ -23,12 +25,23 @@ ARG_HELP = {
 def parse_args() -> DelayEffectParams:
     parser = construct_parser()
     args = parser.parse_args()
-    effect_params = construct_effect_params(args)
+    if args.file is not None:
+        args_dict = load_dict(args.file)
+        print(f"Loaded configuration from '{args.file}'")
+    else:
+        args_dict = convert_to_dict(args)
+    effect_params = construct_effect_params(args_dict)
     return effect_params
 
 
 def construct_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=PROGRAM_DESCRIPTION)
+    parser.add_argument(
+        "-f",
+        "--file",
+        type=str,
+        help="Path to file containing configuration. If specified, other arguments are ignored.",
+    )
     for field in get_field_names(DelayEffectParams):
         arg_name = format_as_arg(field)
         if arg_name == "filter":
@@ -50,20 +63,23 @@ def construct_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def construct_effect_params(args: argparse.Namespace) -> DelayEffectParams:
-    args = args_to_dict(args)
-    filter_params = FilterParams()
-    for field in get_field_names(FilterParams):
-        arg_name = "filter_" + field
-        filter_params.__setattr__(field, args[arg_name])
-    delay_effect_params = DelayEffectParams()
-    for field in get_field_names(DelayEffectParams):
-        arg_name = field
-        if arg_name == "filter":
-            continue
-        delay_effect_params.__setattr__(field, args[arg_name])
-    delay_effect_params.filter = filter_params
-    return delay_effect_params
+def construct_effect_params(args: dict) -> DelayEffectParams:
+    try:
+        filter_params = FilterParams()
+        for field in get_field_names(FilterParams):
+            arg_name = "filter_" + field
+            filter_params.__setattr__(field, args[arg_name])
+        delay_effect_params = DelayEffectParams()
+        for field in get_field_names(DelayEffectParams):
+            arg_name = field
+            if arg_name == "filter":
+                continue
+            delay_effect_params.__setattr__(field, args[arg_name])
+        delay_effect_params.filter = filter_params
+        return delay_effect_params
+    except KeyError as e:
+        print(f"Error: Parameter {e} not specified.")
+        exit(0)
 
 
 def get_field_names(class_type):
@@ -88,7 +104,23 @@ def get_arg_help(arg_name):
         return ARG_HELP[arg_name] + f" Default: {get_arg_default(arg_name)}"
 
 
-def args_to_dict(args):
+def load_dict(path: str):
+    if not os.path.exists(path) or not os.path.isfile(path):
+        print(f"Error: The file '{path}' does not exist.")
+        exit(1)
+    if not os.access(path, os.R_OK):
+        print(f"Error: Cannot access '{path}': Permission denied.")
+        exit(1)
+    with open(path, "r") as file:
+        try:
+            data = yaml.safe_load(file)
+            return data
+        except yaml.YAMLError as e:
+            print(f"Error: Couldn't load configuration from '{path}': {e}")
+            exit(1)
+
+
+def convert_to_dict(args: argparse.Namespace):
     return {
         attr: getattr(args, attr)
         for attr in dir(args)
