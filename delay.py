@@ -4,8 +4,8 @@ from audio_client import AudioClient
 from processing import DelayEffect
 from cli import parse_args
 
-client = AudioClient("delay")
 args = parse_args()
+client = AudioClient("delay")
 delay_effect = DelayEffect(args, client.get_samplerate())
 
 
