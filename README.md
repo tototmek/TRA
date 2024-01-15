@@ -37,11 +37,6 @@ python3 delay.py --help
 Konfiguracja programu może zostać również wczytana z pliku yaml. Należy wówczas wywołać program z opcją `--file`, podając ścieżkę do pliku konfiguracyjnego. Przykładowa konfiguracja znajduje się w pliku `config.yaml`.
 
 ## Wykorzystanie
-
-[Nagranie prezentujące działanie efektu — link](todo:youtubealbogithub)
-
-Film znajdujący się pod powyższym linkiem zawiera prezentację działania stworzonego oprogramowania przy różnych konfiguracjach, pochodzących z zawartych w repozytorium plików konfiguracyjnych.
-
 Ustawianie parametrów efektu może odbywać się poprzez argumenty wywołania skryptu, lub z pliku konfiguracyjnego (przy ustawieniu odpowiedniej flagi). Warto zwrócić uwagę, że wczytywanie konfiguracji z pliku całkowicie wyłącza działanie argumentów wywołania.
 
 Przy zadawaniu konfiguracji z linii poleceń, parametry posiadają wartości domyślne, natomiast pliki konfiguracyjne muszą zawierać ustawienia wszsystkich parametrów – w innej sytuacji zgłoszony zostanie błąd.
@@ -61,7 +56,6 @@ Do projektu dołączone zostały pliki z gotowymi konfiguracjami (`example_confi
 - `Przykład 3` – przejrzysty efekt delay. Osiągnięty został poprzez zwiększenie przerw pomiędzy kolejnymi odpowiedziami oraz niewielką filtracją zarówno dolnych jak i górnych częstotliwości.
 
 
-Przedstawiony wyżej film zawiera pokaz brzmienia zawartych w tych plikach konfiguracji.
 
 ## Zakres stosowania
 Wykorzystanie opgrogramowania JACK sprawia, że stworzony element może być wykorzystywany w większych systemach przetwarzania dźwięku – opgrogramowanie to pozwala na dowolne łączenie wejść i wyjść uruchomionych programów, by sprostać potrzebom użytkownika. Wspiera ono wiele backendów audio, więc jest kompatybilne z większością systemów.
