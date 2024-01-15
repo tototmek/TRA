@@ -11,7 +11,8 @@ ARG_DEFAULT_VALUES = {
     "wet": 0.4,
     "feedback": 0.8,
     "low_freq": 200,
-    "high_freq": 2000,
+    "high_freq": 500,
+    "order": 4,
 }
 
 ARG_HELP = {
@@ -21,6 +22,7 @@ ARG_HELP = {
     "feedback": "Feedback gain.",
     "low_freq": "Bandpass filter low frequency",
     "high_freq": "Bandpass filter high frequency",
+    "order": "Order of bandpass filter",
 }
 
 
@@ -32,6 +34,8 @@ def parse_args() -> DelayEffectParams:
         print(f"Loaded configuration from '{args.file}'")
     else:
         args_dict = convert_to_dict(args)
+    if args_dict.get("filter_order") not in {1, 2, 3, 4}:
+        raise ValueError(f"Order of filter has to be 1, 2, 3 or 4, current {args_dict.get('filter_order')}")
     effect_params = construct_effect_params(args_dict)
     return effect_params
 
