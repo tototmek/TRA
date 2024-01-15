@@ -34,52 +34,51 @@ class DelayBlock:
 class FilterBlock:
     def __init__(self, params: FilterParams) -> None:
         self.prev_x = 0
-        self.buffer_x_1 = ShiftRegister(3)
-        self.buffer_x_2 = ShiftRegister(3)
-        self.buffer_x_3 = ShiftRegister(3)
-        self.buffer_x_4 = ShiftRegister(3)
-        self.buffer_y_1 = ShiftRegister(2)
-        self.buffer_y_2 = ShiftRegister(2)
-        self.buffer_y_3 = ShiftRegister(2)
-        self.buffer_y_4 = ShiftRegister(2)
+        self.buffer_x_1 = [0, 0, 0]
+        self.buffer_x_2 = [0, 0, 0]
+        self.buffer_x_3 = [0, 0, 0]
+        self.buffer_x_4 = [0, 0, 0]
+        self.buffer_y_1 = [0, 0]
+        self.buffer_y_2 = [0, 0]
+        self.buffer_y_3 = [0, 0]
+        self.buffer_y_4 = [0, 0]
         self.set_params(params)
         self.b, self.a = signal.butter(self.order, [self.low_freq, self.high_freq], fs=SAMPLE_RATE, btype="band")
         self.sos = signal.tf2sos(self.b, self.a)
-        print(self.sos)
-
+        
     def process(self, x: float) -> float:
-        self.buffer_x_1.shift(x)
-        y1 = self.sos[0][0]*self.buffer_x_1.at(0) + self.sos[0][1]*self.buffer_x_1.at(1) + self.sos[0][2]*self.buffer_x_1.at(2)
-        y1 = y1 - self.sos[0][4]*self.buffer_y_1.at(0) - self.sos[0][5]*self.buffer_y_1.at(1)
+        self.buffer_x_1 = [x, self.buffer_x_1[0], self.buffer_x_1[1]]
+        y1 = self.sos[0][0]*self.buffer_x_1[0] + self.sos[0][1]*self.buffer_x_1[1] + self.sos[0][2]*self.buffer_x_1[2]
+        y1 = y1 - self.sos[0][4]*self.buffer_y_1[0] - self.sos[0][5]*self.buffer_y_1[1]
         y1 = self.sos[0][3]*y1
-        self.buffer_y_1.shift(y1)
+        self.buffer_y_1 = [y1, self.buffer_y_1[0]]
 
         if self.order == 1:
             return y1
 
-        self.buffer_x_2.shift(y1)
-        y2 = self.sos[1][0]*self.buffer_x_2.at(0) + self.sos[1][1]*self.buffer_x_2.at(1) + self.sos[1][2]*self.buffer_x_2.at(2)
-        y2 = y2 - self.sos[1][4]*self.buffer_y_2.at(0) - self.sos[1][5]*self.buffer_y_2.at(1)
+        self.buffer_x_2 = [y1, self.buffer_x_2[0], self.buffer_x_2[1]]
+        y2 = self.sos[1][0]*self.buffer_x_2[0] + self.sos[1][1]*self.buffer_x_2[1] + self.sos[1][2]*self.buffer_x_2[2]
+        y2 = y2 - self.sos[1][4]*self.buffer_y_2[0] - self.sos[1][5]*self.buffer_y_2[1]
         y2 = self.sos[1][3]*y2
-        self.buffer_y_2.shift(y2)
+        self.buffer_y_2 = [y2, self.buffer_y_2[0]]
 
         if self.order == 2:
             return y2
 
-        self.buffer_x_3.shift(y2)
-        y3 = self.sos[2][0]*self.buffer_x_3.at(0) + self.sos[2][1]*self.buffer_x_3.at(1) + self.sos[2][2]*self.buffer_x_3.at(2)
-        y3 = y3 - self.sos[2][4]*self.buffer_y_3.at(0) - self.sos[2][5]*self.buffer_y_3.at(1)
+        self.buffer_x_3 = [y2, self.buffer_x_3[0], self.buffer_x_3[1]]
+        y3 = self.sos[2][0]*self.buffer_x_3[0] + self.sos[2][1]*self.buffer_x_3[1] + self.sos[2][2]*self.buffer_x_3[2]
+        y3 = y3 - self.sos[2][4]*self.buffer_y_3[0] - self.sos[2][5]*self.buffer_y_3[1]
         y3 = self.sos[2][3]*y3
-        self.buffer_y_3.shift(y3)
+        self.buffer_y_3 = [y3, self.buffer_y_3[0]]
 
         if self.order == 3:
             return y3
 
-        self.buffer_x_4.shift(y3)
-        y4 = self.sos[3][0]*self.buffer_x_4.at(0) + self.sos[3][1]*self.buffer_x_4.at(1) + self.sos[3][2]*self.buffer_x_4.at(2)
-        y4 = y4 - self.sos[3][4]*self.buffer_y_4.at(0) - self.sos[3][5]*self.buffer_y_4.at(1)
+        self.buffer_x_4 = [y3, self.buffer_x_4[0], self.buffer_x_4[1]]
+        y4 = self.sos[3][0]*self.buffer_x_4[0] + self.sos[3][1]*self.buffer_x_4[1] + self.sos[3][2]*self.buffer_x_4[2]
+        y4 = y4 - self.sos[3][4]*self.buffer_y_4[0] - self.sos[3][5]*self.buffer_y_4[1]
         y4 = self.sos[3][3]*y4
-        self.buffer_y_4.shift(y4)
+        self.buffer_y_4 = [y4, self.buffer_y_4[0]]
 
         return y4
 

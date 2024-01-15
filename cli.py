@@ -10,9 +10,9 @@ ARG_DEFAULT_VALUES = {
     "dry": 0.6,
     "wet": 0.4,
     "feedback": 0.8,
-    "low_freq": 200,
-    "high_freq": 500,
-    "order": 4,
+    "filter-low-freq": 200,
+    "filter-high-freq": 500,
+    "filter-order": 4,
 }
 
 ARG_HELP = {
