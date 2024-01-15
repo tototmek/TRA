@@ -85,4 +85,6 @@ Wkład Przemysława Wyzińskiego:
 ## Perspektywy rozwoju
 Godnymi zaadresowania są wymienione wcześniej ograniczenia stworzonego rozwiązania. Przepisanie programu na język o większej wydajności niż Python (np. C++) pozwoliłoby znacznie zmniejszyć powstające opóźnienia. Wartą wprowadzenia funkcjonalnością jest również graficzny interfejs użytkownika pozwalający na bieżąco dostosowywać brzmienie efektu. 
 
+Stworzony algorytm, przepisany na odpowiedni język niższego poziomu może również zostać zastosowany do realizacji sprzętowego efektu gitarowego, stanowiącego niezależne urządzenie, podpinane bezpośrednio w linii sygnału między gitarą a wzmacniaczem.
+
 Zastosowane podejście do implementacji algorytmu przetwarzania sygnału – realizacja go w postaci układu połączonych ze sobą bloków – zainspirowało nas do dalszego rozwinięcia pomysłu. Ciekawym przyszłym projektem opierającym się na niniejszym rozwiązaniu mógłby być uniwersalny modularny efekt gitarowy, oferujący użytkownikowi zestaw bloków realizujących podstawowe algorytmu przetwarzania sygnałów w kontekście efektów gitarowych, które mogą być ze sobą w dowolny sposób łączone.
