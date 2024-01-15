@@ -60,8 +60,16 @@ Do projektu dołączone zostały pliki z gotowymi konfiguracjami prezentujące w
 Przedstawiony wyżej film zawiera pokaz brzmienia zawartych w tych plikach konfiguracji.
 
 ## Zakres stosowania
+Wykorzystanie opgrogramowania JACK sprawia, że stworzony element może być wykorzystywany w większych systemach przetwarzania dźwięku – opgrogramowanie to pozwala na dowolne łączenie wejść i wyjść uruchomionych programów, by sprostać potrzebom użytkownika. Wspiera ono wiele backendów audio, więc jest kompatybilne z większością systemów.
 
-### Znane problemy
+Szczególnie łatwe jest zarządzanie połączeniem efektu z odpowiednimi wejściami/wyjściami audio komputera, dzięki łatwo jest wykorzystać oprogramowanie w połączeniu z instrumentem i zewnętrznym głośnikiem.
+
+### Ograniczenia
+
+Programowe przetwarzanie sygnałów wymaga czasu procesora. W przypadku nieco słabszych maszyn wymagany czas obliczeń może wprowadzać opóźnienie sygnału zauważalne dla słuchacza, co znacznie pogarsza jakość doświadczeń płynących z używania efektu. Próba minimalizowania opóźnienia może prowadzić do powstawania słyszalnych artefaktów wynikających z procesora nienadążającego przetworzyć wszystkich próbek na czas.
+
+Na ten moment oprogramowanie nie oferuje interfejsu użytkownika, który pozwoliłby w czasie rzeczywistym konfigurować brzmienie efektu. Dla wielu artystów element ten jest bardzo ważny, ponieważ pozwala dopracowywać brzmienie "do perfekcji", oraz zmieniać je w trakcie wykonywania utworu.
+
 
 ## Wkład autorów
 Koncepcja projektu oraz sposób implementacji powstał w wyniku bezpośredniej współpracy obu autorów. Poniżej przedstawiono podział zadań podczas realizacji oprogramowania.
@@ -73,3 +81,8 @@ Wkład Tomasza Żebrowskiego:
 
 Wkład Przemysława Wyzińskiego:
 - todo
+
+## Perspektywy rozwoju
+Godnymi zaadresowania są wymienione wcześniej ograniczenia stworzonego rozwiązania. Przepisanie programu na język o większej wydajności niż Python (np. C++) pozwoliłoby znacznie zmniejszyć powstające opóźnienia. Wartą wprowadzenia funkcjonalnością jest również graficzny interfejs użytkownika pozwalający na bieżąco dostosowywać brzmienie efektu. 
+
+Zastosowane podejście do implementacji algorytmu przetwarzania sygnału – realizacja go w postaci układu połączonych ze sobą bloków – zainspirowało nas do dalszego rozwinięcia pomysłu. Ciekawym przyszłym projektem opierającym się na niniejszym rozwiązaniu mógłby być uniwersalny modularny efekt gitarowy, oferujący użytkownikowi zestaw bloków realizujących podstawowe algorytmu przetwarzania sygnałów w kontekście efektów gitarowych, które mogą być ze sobą w dowolny sposób łączone.
