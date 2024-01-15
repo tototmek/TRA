@@ -10,7 +10,8 @@ ARG_DEFAULT_VALUES = {
     "dry": 0.6,
     "wet": 0.4,
     "feedback": 0.8,
-    "filter-filterness": 0.8,
+    "low_freq": 200,
+    "high_freq": 2000,
 }
 
 ARG_HELP = {
@@ -18,7 +19,8 @@ ARG_HELP = {
     "dry": "Dry gain.",
     "wet": "Wet gain.",
     "feedback": "Feedback gain.",
-    "filter-filterness": "Some random filter param.",
+    "low_freq": "Bandpass filter low frequency",
+    "high_freq": "Bandpass filter high frequency",
 }
 
 

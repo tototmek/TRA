@@ -1,6 +1,6 @@
-time: 0.9
+time: 0.2
 dry: 0.2
 wet: 0.8
 feedback: 0.8
-filter_filterness: 0.8
-filter_unused_param: 0.0
+filter_low_freq: 200
+filter_high_freq: 2000

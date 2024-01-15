@@ -1,7 +1,10 @@
 from shift_register import ShiftRegister
 from params import DelayEffectParams, FilterParams
+from scipy import signal
+import numpy as np
 
 MAX_DELAY_SAMPLES = 65536
+SAMPLE_RATE = 44100
 
 
 class GainBlock:
@@ -33,13 +36,21 @@ class DelayBlock:
 class FilterBlock:
     def __init__(self, params: FilterParams) -> None:
         self.prev_x = 0
+        self.buffer = ShiftRegister(100)
         self.set_params(params)
+        self.b, self.a = signal.butter(4, [self.low_freq, self.high_freq], fs=SAMPLE_RATE, btype="band")
+        self.sos = signal.tf2sos(self.b, self.a)
 
     def process(self, x: float) -> float:
-        return self.filterness * self.prev_x + (1 - self.filterness) * x
+        # self.buffer.shift(x)
+        # return self.filterness * self.buffer.register[1]
+        self.buffer.shift(x)
+        a = signal.sosfilt(self.sos, self.buffer.register)
+        return a[9]
 
     def set_params(self, params: FilterParams) -> None:
-        self.filterness = params.filterness
+        self.low_freq = params.low_freq
+        self.high_freq = params.high_freq
 
 
 class DelayEffect:

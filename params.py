@@ -1,6 +1,6 @@
 class FilterParams:
-    filterness: float
-    unused_param: float
+    low_freq: float
+    high_freq: float
 
 
 class DelayEffectParams:
