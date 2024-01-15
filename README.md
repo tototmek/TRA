@@ -53,12 +53,12 @@ Obsługiwane parametry efektu to:
 - `feedback` – Wzmocnienie w torze pętli sprzężenia wyjścia efektu z jego wejściem. Oznacza ono część sygnału wychodzącego z bloku opóźniającego w efekcie, jaka trafia spowrotem na jego wejście. Zalecane są wartości 0≤x<1. Przy niskiej wartości parametru, słyszalne będzie jedno powtórzenie zagranego dźwięku, oraz możliwe minimalnie słyszalne drugie powtórzenie. Przy wartościach wysokich (na przykład 0.999), na wyjściu efektu pojawiają się prawie niegasnące powtórzenia, co również pozwala uzyskać ciekawe brzmienia. Przy wartościach większych niż 1 efekt staje się niestabilny, a poziom sygnału w pętli sprzężenia zwrotnego stale rośnie. Może to działać jako efekt artystyczny, ale w typowych wykorzystaniach jest raczej nieporządane.
 - `filter_low_freq` – Dolny zakres częstotliwości filtru – częstotliwości poniżej tego limitu są odfiltrowywane.
 - `filter_high_freq` – Górny zakres częstotliwości filtru – częstotliwości powyżej tego limitu są odfiltrowywane. Zarówno dolny jak i górny limit filtru pozwalają na tworzenie ciekawych brzmień instrumentu dostosowywując się do różnych gatunków muzycznych oraz styli gry.
-- `filter_order` – rządu filtru z przedziału od 1 do 4. Im większy rząd filtru tym bardziej agresywnie odfiltrowywane są częstotliwości, co umożliwia osiągnięcie oryginalnych brzmień.
+- `filter_order` – Rząd filtru z przedziału od 1 do 4. Im większy rząd filtru tym bardziej agresywnie odfiltrowywane są częstotliwości, co umożliwia osiągnięcie oryginalnych brzmień.
 
 Do projektu dołączone zostały pliki z gotowymi konfiguracjami (`example_configs.yaml`) prezentujące wpływ poszczególnych parametrów na brzmienie instrumentu:
 - `Przykład 1` – bardzo jasne brzmienia efektu zanikające w tle. Osiągnięte zostały poprzez odfiltrowanie dolnych częstotliwości i wygłużenie odpowiedzi efektu.
-- `Przykład 2` – ciemne brzmienia efektu wprowadzające głębki klimat efektu. Osiągniete zostały poprzez odfiltrowanie górnych częstotliwości.
-- `Przykład 3` – przejrzysty efekt delay. Osiągnięty został poprzez zwiększenie przerw pomiędzy kolejnymi odpowiedziami oraz niewielką filtracją razówno dolnych jak i górnych częstotliwości.
+- `Przykład 2` – ciemne brzmienia efektu wprowadzające głęboki klimat efektu. Osiągniete zostały poprzez odfiltrowanie górnych częstotliwości.
+- `Przykład 3` – przejrzysty efekt delay. Osiągnięty został poprzez zwiększenie przerw pomiędzy kolejnymi odpowiedziami oraz niewielką filtracją zarówno dolnych jak i górnych częstotliwości.
 
 
 Przedstawiony wyżej film zawiera pokaz brzmienia zawartych w tych plikach konfiguracji.
