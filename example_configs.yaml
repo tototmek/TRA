@@ -11,7 +11,7 @@ filter_order: 1
 time: 0.35
 dry: 0.4
 wet: 0.6
-feedback: 0.4
+feedback: 0.7
 filter_low_freq: 200
 filter_high_freq: 500
 filter_order: 4
@@ -21,6 +21,6 @@ time: 0.65
 dry: 0.5
 wet: 0.5
 feedback: 0.2
-filter_low_freq: 200
+filter_low_freq: 300
 filter_high_freq: 5000
 filter_order: 2
